@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Post-it</string>
+    <string name="post_title">Post title</string>
 </resources>
