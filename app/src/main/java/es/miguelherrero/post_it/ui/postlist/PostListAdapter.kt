@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_post.view.*
 class PostListAdapter: RecyclerView.Adapter<PostListAdapter.PostListAdapterViewHolder>() {
 
     // 1 - Store the list data
-    lateinit var data: List<Post>
+    var data: List<Post> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostListAdapterViewHolder {
         // 2 - Inflate the item view layout and pass it to the viewHolder
@@ -35,6 +35,7 @@ class PostListAdapter: RecyclerView.Adapter<PostListAdapter.PostListAdapterViewH
     // 5 - Create an auxiliary function to populate data from other source
     fun setupPosts(posts: List<Post>) {
         data = posts
+        notifyDataSetChanged()
     }
 
     class PostListAdapterViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
