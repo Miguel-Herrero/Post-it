@@ -1,15 +1,16 @@
 package es.miguelherrero.post_it.ui.postlist
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.miguelherrero.post_it.R
-import es.miguelherrero.post_it.domain.model.Post
+import es.miguelherrero.post_it.data.repository.PostRepository
 
 class PostListFragment : Fragment() {
 
@@ -45,8 +46,15 @@ class PostListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(PostListViewModel::class.java)
 
-        // 4 - To test, use custom function in adapter to set some initial data
-        mPostListAdapter.setupPosts(listOf(Post("", "", "My first test post", "")))
+        // 1 - Initialize Repository instance
+        viewModel.postRepository = PostRepository()
+
+        // 2 - Whenever Repository fetches new posts, update the adapter with new posts (setupPosts)
+        viewModel.getPosts().observe(this, Observer { posts ->
+            posts.let {
+                mPostListAdapter.setupPosts(posts)
+            }
+        })
     }
 
 }
